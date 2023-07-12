@@ -1,9 +1,13 @@
 version: 0.2
 
 phases:
-  install:
-    runtime-versions:
-      docker: 23
+  pre_build:
+    commands:
+      - echo Checking if Docker is available...
+      - docker version || (echo "Docker is not installed. Installing Docker..." && apt-get update && apt-get install -y docker-ce)
+      - echo Starting Docker...
+      - service docker start
+
   build:
     commands:
       - ls -l
