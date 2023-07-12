@@ -6,6 +6,7 @@ phases:
       docker: 23
   build:
     commands:
+      - ls
       - echo Building the Docker image...
       - docker build -t $ECR_REPOSITORY_URI:$TAG .
       - echo Pushing the Docker image to ECR...
