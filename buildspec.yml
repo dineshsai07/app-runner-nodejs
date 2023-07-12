@@ -1,22 +1,3 @@
-# version: 0.2
-
-# phases:
-#   pre_build:
-#     commands:
-#       - echo Checking if Docker is available...
-#       - docker version || (echo "Docker is not installed. Installing Docker..." && yum update -y && yum install -y docker)
-#       - echo Starting Docker...
-#       - service docker start
-
-#   build:
-#     commands:
-#       - ls -l
-#       - echo Building the Docker image...
-#       - docker build -t $ECR_REPOSITORY_URI:$TAG .
-#       - echo Pushing the Docker image to ECR...
-#       - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com
-#       - docker push $ECR_REPOSITORY_URI:$TAG
-
 version: 0.2
 
 phases:
@@ -24,9 +5,8 @@ phases:
     commands:
       - echo Checking if Docker is available...
       - docker version || (echo "Docker is not installed. Installing Docker..." && yum update -y && yum install -y docker)
-      - echo Starting Docker manually...
-      - nohup dockerd >/dev/null 2>&1 &
-      - timeout 15 sh -c "until docker info >/dev/null 2>&1; do sleep 1; done"
+      - echo Starting Docker...
+      - sudo systemctl start docker
 
   build:
     commands:
@@ -36,4 +16,24 @@ phases:
       - echo Pushing the Docker image to ECR...
       - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com
       - docker push $ECR_REPOSITORY_URI:$TAG
+
+# version: 0.2
+
+# phases:
+#   pre_build:
+#     commands:
+#       - echo Checking if Docker is available...
+#       - docker version || (echo "Docker is not installed. Installing Docker..." && yum update -y && yum install -y docker)
+#       - echo Starting Docker manually...
+#       - nohup dockerd >/dev/null 2>&1 &
+#       - timeout 15 sh -c "until docker info >/dev/null 2>&1; do sleep 1; done"
+
+#   build:
+#     commands:
+#       - ls -l
+#       - echo Building the Docker image...
+#       - docker build -t $ECR_REPOSITORY_URI:$TAG .
+#       - echo Pushing the Docker image to ECR...
+#       - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com
+#       - docker push $ECR_REPOSITORY_URI:$TAG
 
