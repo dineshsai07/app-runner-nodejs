@@ -8,7 +8,7 @@ phases:
     commands:
       - ls -l
       - echo Building the Docker image...
-      - docker build -t $ECR_REPOSITORY_URI:$TAG .
+      - docker build -t ${ECR_REPOSITORY_URI}:${TAG} .
       - echo Pushing the Docker image to ECR...
-      - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com
-      - docker push $ECR_REPOSITORY_URI:$TAG
+      - aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com
+      - docker push ${ECR_REPOSITORY_URI}:${TAG}
