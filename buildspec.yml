@@ -6,7 +6,7 @@ phases:
       - echo Checking if Docker is available...
       - docker version || (echo "Docker is not installed. Installing Docker..." && yum update -y && yum install -y docker)
       - echo Starting Docker...
-      - service docker start
+      - systemctl start docker
 
   build:
     commands:
