@@ -9,7 +9,6 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - sudo dockerd
       - docker images
       - echo Building the Docker image...
       - docker build -t $ECR_REPOSITORY_URI:$TAG .
