@@ -10,11 +10,11 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI:$TAG .
+      - docker build -t $ECR_REPOSITORY_URI:$TAG .
 
   post_build:
     commands:
-      - docker push $REPOSITORY_URI:$TAG
+      - docker push $ECR_REPOSITORY_URI:$TAG
 
 # version: 0.2
 
