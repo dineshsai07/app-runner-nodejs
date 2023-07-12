@@ -4,7 +4,7 @@ phases:
   pre_build:
     commands:
       - echo Checking if Docker is available...
-      - docker version || (echo "Docker is not installed. Installing Docker..." && apt-get update && apt-get install -y docker-ce)
+      - docker version || (echo "Docker is not installed. Installing Docker..." && amazon-linux-extras install docker -y)
       - echo Starting Docker...
       - service docker start
 
