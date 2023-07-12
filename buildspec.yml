@@ -3,19 +3,20 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo Checking if Docker is available...
-      - docker version || (echo "Docker is not installed. Installing Docker..." && yum update -y && yum install -y docker)
-      - echo Starting Docker...
-      - sudo systemctl start docker
-
+        - echo Logging in to Amazon ECR...
+        - aws --version
+        - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com
   build:
     commands:
-      - ls -l
+      - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $ECR_REPOSITORY_URI:$TAG .
-      - echo Pushing the Docker image to ECR...
-      - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com
-      - docker push $ECR_REPOSITORY_URI:$TAG
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+
+  post_build:
+    commands:
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$TAG
 
 # version: 0.2
 
