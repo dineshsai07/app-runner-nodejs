@@ -1,0 +1,7 @@
+version: 1.0
+build:
+  commands:
+    - echo "Build phase: Building Docker image..."
+    - docker build -t REPLACE_WITH_IMAGE_TAG .
+run:
+  command: docker run -p 8080:8080 REPLACE_WITH_IMAGE_TAG
